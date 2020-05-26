@@ -96,9 +96,10 @@ module.exports = {
                     expiresIn: "1h"
                 });
                 new Cookies(req,res).set('access_token', jsontoken, {
-                    httpOnly: false,
-                    secure: false,
-                    domain: "idlunch.wt1-2.ephec-ti.be:3000"
+                    httpOnly: true,
+                    secure: true,
+                    domain: "idlunch.wt1-2.ephec-ti.be",
+                    sameSite: "None"
                 });
                 console.log(res);
                 console.log(req);
