@@ -98,7 +98,7 @@ module.exports = {
                 new Cookies(req,res).set('access_token', jsontoken, {
                     httpOnly: false,
                     secure: false,
-                    domain: "idlunch-14bd5.web.app"
+                    domain: "idlunch.wt1-2.ephec-ti.be:3000"
                 });
                 console.log(res);
                 console.log(req);
