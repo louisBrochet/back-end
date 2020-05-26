@@ -6,7 +6,7 @@ const fs = require('fs');
 const https = require('https');
 const cors = require('cors');
 app.use(cors({
-    origin: 'https://idlunch-14bd5.web.app/',
+    origin: 'https://idlunch-14bd5.web.app',
     credentials: true
 }));
 
