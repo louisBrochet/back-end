@@ -4,6 +4,8 @@ const { genSaltSync, hashSync, compareSync } = require("bcrypt");
 const { sign } = require("jsonwebtoken");
 const Cookies = require("cookies");
 const mailer = require("nodemailer");
+const { google } = require("googleapis");
+const OAuth2 = google.auth.OAuth2;
 
 
 module.exports = {
@@ -137,18 +139,25 @@ module.exports = {
     },
     email: (req, res) => {
         const data = req.body;
-        const smtpTransport = mailer.createTransport( {
-            host: 'smtp.gmail.com',
-            port: 465,
-            secure: true,
-            //service: "Gmail",
+        const oauth2Client = new OAuth2(
+            "44658939913-saf0lmlgqhafgq08laupid2409ub6tgp.apps.googleusercontent.com", // ClientID
+            "p350o2ZY-LsBjLUdoBqpES9I", // Client Secret
+            "https://developers.google.com/oauthplayground" // Redirect URL
+        );
+        oauth2Client.setCredentials({
+            refresh_token: "1//04aJSwMYntQ3ICgYIARAAGAQSNwF-L9IreeJyJWSeep_GNX3Gjc7CXVyO68PLca7iDvF-8VcO-OoEEOImaf_-RZYGjxp31M95qlo"
+        });
+        const accessToken = oauth2Client.getAccessToken()
+        const smtpTransport = mailer.createTransport({
+            service: "gmail",
             auth: {
-                user: process.env.MAIL,
-                pass: process.env.MAIL_PASSWORD
-            },
-            //tls: {
-                //rejectUnauthorized: false
-            //}
+                type: "OAuth2",
+                user: "idLunchContact@gmail.com",
+                clientId: "44658939913-saf0lmlgqhafgq08laupid2409ub6tgp.apps.googleusercontent.com",
+                clientSecret: "p350o2ZY-LsBjLUdoBqpES9I",
+                refreshToken: "1//04aJSwMYntQ3ICgYIARAAGAQSNwF-L9IreeJyJWSeep_GNX3Gjc7CXVyO68PLca7iDvF-8VcO-OoEEOImaf_-RZYGjxp31M95qlo",
+                accessToken: accessToken
+            }
         });
         const mail = {
             from: data.email,
