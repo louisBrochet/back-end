@@ -4,7 +4,7 @@ const { checkToken } = require("../../auth/token_validation");
 
 router.post("/", checkToken, createFournisseur);
 router.get("/", checkToken, getFournisseurs);
-router.patch("/", checkToken, updateFournisseur);
+router.put("/", checkToken, updateFournisseur);
 router.delete("/", checkToken, deleteFournisseur);
 
 module.exports = router;

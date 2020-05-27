@@ -25,12 +25,13 @@ const ca = fs.readFileSync('/etc/letsencrypt/live/idlunch.wt1-2.ephec-ti.be/chai
 
 const credentials = {
   key: privateKey,
-cert: certificate,
-ca: ca
+  cert: certificate,
+  ca: ca
 };
 
 const httpsServer = https.createServer(credentials, app);
 
+//production
 httpsServer.listen(process.env.APP_PORT, () => {
   console.log('HTTPS Server running on port 3000');
 });
@@ -42,6 +43,7 @@ app.use("/v1/api/produits", produitRouter);
 app.use("/v1/api/fournisseurs", fournisseurRouter);
 app.use("/v1/api/categories", categorieRouter);
 
+//localhost test
 //app.listen(process.env.APP_PORT, () =>{
-  //  console.log("Server up and running : ", process.env.APP_PORT);
+//    console.log("Server up and running : ", process.env.APP_PORT);
 //});

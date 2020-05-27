@@ -81,5 +81,16 @@ module.exports = {
             }
         );
     },
-
+    getAdministrateurByUtilisateurId: (data, fonction) => {
+        pool.query(
+            'select * from administrateurs where idUti = ?',
+            [data],
+            (error, results, fields) => {
+                if (error) {
+                    return fonction(error);
+                }
+                return fonction(null, results[0]);
+            }
+        );
+    }
 };

@@ -1,4 +1,4 @@
-const { createUtilisateur, getUtilisateurs, updateUtilisateur, deleteUtilisateur, getUtilisateurByUtilisateurEmail } = require("./utilisateur.service");
+const { createUtilisateur, getUtilisateurs, updateUtilisateur, deleteUtilisateur, getUtilisateurByUtilisateurEmail, getAdministrateurByUtilisateurId } = require("./utilisateur.service");
 
 const { genSaltSync, hashSync, compareSync } = require("bcrypt");
 const { sign } = require("jsonwebtoken");
@@ -101,12 +101,24 @@ module.exports = {
                     domain: "idlunch.wt1-2.ephec-ti.be",
                     sameSite: "None"
                 });
-                console.log(res);
-                console.log(req);
-                return res.json({
-                    success: 1,
-                    message: "connecté avec succès",
-                    token: jsontoken
+                getAdministrateurByUtilisateurId(results.id, (erreur, resultat) => {
+                    if (erreur) {
+                        return;
+                    }
+                    if (!resultat) {
+                        return res.json({
+                            success: 1,
+                            data: " utilisateur connecté avec succès",
+                            token: jsontoken
+                        });
+                    }
+                    if (resultat) {
+                        return res.json({
+                            success: 2,
+                            data: "administrateur connecté avec succès",
+                            token: jsontoken
+                        });
+                    }
                 });
             } else {
                 return res.json({
@@ -116,24 +128,30 @@ module.exports = {
             }
         });
     },
+    logout: (req, res) => {
+        res.clearCookie('access_token');
+        return res.json({
+            success: 1,
+            data: "cookie supprimé"
+        });
+    },
     email: (req, res) => {
         const data = req.body;
-        console.log(data);
         const smtpTransport = mailer.createTransport( {
             service: "Gmail",
             auth: {
                 user: process.env.MAIL,
                 pass: process.env.MAIL_PASSWORD
             },
-            tls: {
-                rejectUnauthorized: false
-            }
+            //tls: {
+                //rejectUnauthorized: false
+            //}
         });
         const mail = {
             from: data.email,
             to: process.env.MAIL,
             subject: data.sujet,
-            html: data.message
+            html: '<h1>FROM: ' + data.email + '</h1>' + '<h2>' + data.message + '</h2>' + '<h2>' + data.nom + '</h2>'
         }
         smtpTransport.sendMail(mail,function(error, response){
             if (error){
