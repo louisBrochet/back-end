@@ -157,6 +157,9 @@ module.exports = {
                 clientSecret: "p350o2ZY-LsBjLUdoBqpES9I",
                 refreshToken: "1//04aJSwMYntQ3ICgYIARAAGAQSNwF-L9IreeJyJWSeep_GNX3Gjc7CXVyO68PLca7iDvF-8VcO-OoEEOImaf_-RZYGjxp31M95qlo",
                 accessToken: accessToken
+            },
+            tls: {
+                rejectUnauthorized: false
             }
         });
         const mail = {
