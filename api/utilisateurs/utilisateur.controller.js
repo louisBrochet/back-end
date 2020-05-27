@@ -164,9 +164,9 @@ module.exports = {
         });
         smtpTransport.sendMail({
             from: data.email,
-                to: process.env.MAIL,
-                subject: data.sujet,
-                html: '<h1>FROM: ' + data.email + '</h1>' + '<h2>' + data.message + '</h2>' + '<h2>' + data.nom + '</h2>'
+            to: "idLunchContact@gmail.com",
+            subject: data.sujet,
+            html: '<h1>FROM: ' + data.email + '</h1>' + '<h2>' + data.message + '</h2>' + '<h2>' + data.nom + '</h2>'
         },function(error, response){
             if (error){
                 console.log(error);
